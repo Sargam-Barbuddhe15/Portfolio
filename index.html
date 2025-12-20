@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sargam Barbuddhe | CSE Student Portfolio</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      /* CSS Variables for Dark/Light Mode - Indigo & Amber Theme */
+      :root {
+        --bg-color: #f5f7fa;
+        --text-color: #37474f;
+        --primary-color: #3f51b5;
+        --secondary-color: #ffc107;
+        --card-bg: #ffffff;
+        --header-bg: linear-gradient(135deg, #1a237e, #3f51b5);
+        --nav-bg: #303f9f;
+        --dark-text: #263238;
+      }
+      body.dark {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --primary-color: #7986cb;
+        --secondary-color: #ffeb3b;
+        --header-bg: linear-gradient(135deg, #0d47a1, #1a237e);
+        --nav-bg: #283593;
+        --dark-text: #f5f5f5;
+      }
+
+      /* Base Reset & Typography */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background: var(--bg-color);
+        scroll-behavior: smooth;
+        transition: background 0.3s, color 0.3s;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Montserrat", sans-serif;
+      }
+
+      /* Theme Toggle Button */
+      #theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1001;
+        background: var(--secondary-color);
+        color: var(--dark-text);
+        font-weight: 600;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, background 0.3s;
+      }
+      #theme-toggle:hover {
+        transform: translateY(-2px);
+      }
+
+      /* Header */
+      header {
+        position: relative;
+        background: var(--header-bg);
+        color: white;
+        padding: 2rem 10%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      header h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: var(--secondary-color);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      header p {
+        font-size: 1.5rem;
+        color: #e8eaf6;
+        font-weight: 300;
+      }
+
+      /* Navbar */
+      nav {
+        background: var(--nav-bg);
+        padding: 0.8rem 10%;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        flex-direction: row;
+        transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+        overflow: hidden;
+        max-height: 1000px;
+      }
+      .logo {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: white;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.4rem 0.2rem;
+        transition: color 0.3s, border-bottom 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--secondary-color);
+        border-bottom: 2px solid var(--secondary-color);
+      }
+      .hamburger {
+        display: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: white;
+        user-select: none;
+        background: none;
+        border: none;
+        position: relative;
+      }
+      .resume-btn {
+        background: var(--secondary-color);
+        color: var(--dark-text);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: transform 0.2s, background 0.3s;
+        text-decoration: none;
+      }
+      .resume-btn:hover {
+        transform: translateY(-2px);
+      }
+      @media (max-width: 768px) {
+        .hamburger {
+          display: block;
+        }
+        .nav-links {
+          position: absolute;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          flex-direction: column;
+          background: var(--nav-bg);
+          max-height: 0;
+          overflow: hidden;
+          padding: 0;
+        }
+        .nav-links.show {
+          max-height: 500px;
+          padding: 1rem 0;
+        }
+        .nav-links a {
+          margin: 0;
+          text-align: center;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .nav-links .resume-btn {
+          margin: 0.5rem auto;
+          border-radius: 5px;
+          width: 80%;
+        }
+      }
+
+      /* Sections */
+      section {
+        padding: 4rem 10%;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        font-weight: 700;
+        position: relative;
+        display: block;
+      }
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background-color: var(--secondary-color);
+        border-radius: 2px;
+      }
+
+      /* Cards */
+      .card {
+        background: var(--card-bg);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        text-align: left;
+        border-top: 5px solid var(--secondary-color);
+      }
+      .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+      }
+      .card h3 {
+        margin-bottom: 0.75rem;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+      .card p {
+        color: var(--text-color);
+        margin-bottom: 1rem;
+      }
+
+      /* About Section - Two Column */
+      .about-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 1000px;
+        margin: 0 auto;
+        gap: 3rem;
+      }
+      .about-text {
+        text-align: center;
+      }
+      .profile-image {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid rgba(0, 0, 0, 0.492);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      @media (min-width: 768px) {
+        .about-container {
+          flex-direction: row;
+          text-align: left;
+        }
+        .about-text {
+          text-align: left;
+        }
+      }
+
+      /* Button Styling */
+      .btn {
+        display: inline-block;
+        background: var(--primary-color);
+        color: white;
+        padding: 0.8rem 1.5rem;
+        margin-top: 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s, transform 0.2s;
+        border: none;
+        margin-right: 0.5rem;
+      }
+      .btn:hover {
+        background: var(--secondary-color);
+        color: var(--dark-text);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: #e0e0e0;
+        color: var(--text-color);
+      }
+      .btn-secondary:hover {
+        background: #bdbdbd;
+      }
+      body.dark .btn-secondary {
+        background: #424242;
+        color: #e0e0e0;
+      }
+      body.dark .btn-secondary:hover {
+        background: #616161;
+      }
+
+      /* Education & Experience Sections */
+      .education-item {
+        margin: 0 auto 2rem;
+        max-width: 700px;
+        padding: 1.5rem;
+        border-left: 5px solid var(--secondary-color);
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+      .education-item h4 {
+        font-size: 1.25rem;
+        color: var(--primary-color);
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+      .education-item p {
+        color: var(--text-color);
+        margin: 0;
+        font-size: 1rem;
+      }
+      .education-item .timeframe {
+        font-style: italic;
+        color: #777;
+        font-size: 0.9rem;
+        display: block;
+        margin-top: 0.5rem;
+      }
+      body.dark .education-item {
+        background: var(--card-bg);
+      }
+      .experience-item ul {
+        list-style-type: disc;
+        margin-left: 1.5rem;
+        color: var(--text-color);
+      }
+      .experience-item li {
+        margin-bottom: 0.5rem;
+      }
+
+      /* Skills Bars */
+      .skill-bar {
+        background: #e0e0e0;
+        border-radius: 5px;
+        height: 10px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+      }
+      body.dark .skill-bar {
+        background: #424242;
+      }
+      .skill-fill {
+        background: var(--secondary-color);
+        height: 100%;
+        width: 0;
+        border-radius: 5px;
+        transition: width 1s ease-in-out;
+      }
+      .card:hover .skill-fill {
+        width: var(--fill-width);
+      }
+
+      /* Project Details */
+      .project-details p:first-of-type {
+        font-weight: 500;
+        color: var(--dark-text);
+      }
+
+      /* Contact Form & Socials */
+      .contact-content {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .social-icons a {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin: 0 1rem;
+        transition: color 0.3s;
+      }
+      .social-icons a:hover {
+        color: var(--secondary-color);
+      }
+      #contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      #contact-form input,
+      #contact-form textarea {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background: var(--card-bg);
+        color: var(--text-color);
+        transition: border-color 0.3s;
+      }
+      #contact-form input:focus,
+      #contact-form textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+      #contact-form textarea {
+        resize: vertical;
+      }
+      #contact-form button {
+        background: var(--primary-color);
+        color: white;
+        padding: 1rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+      }
+      #contact-form button:hover {
+        background: var(--secondary-color);
+        color: var(--dark-text);
+        transform: translateY(-2px);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--nav-bg);
+        color: #e8eaf6;
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        header h1 {
+          font-size: 2.5rem;
+        }
+        header p {
+          font-size: 1.2rem;
+        }
+        h2 {
+          font-size: 2rem;
+          margin-bottom: 1.5rem;
+        }
+        section {
+          padding: 3rem 5%;
+        }
+        .skills {
+          grid-template-columns: 1fr;
+        }
+        .nav-links a {
+          text-align: left;
+          padding: 0.8rem 1.5rem;
+        }
+      }
+
+      /* Grid Layouts */
+      .skills {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+
+      .projects {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Forces two columns */
+        gap: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .projects {
+          grid-template-columns: 1fr; /* Stacks on mobile */
+        }
+      }
+
+      /* Back to Top Button */
+      #back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        padding: 0.6rem 1rem;
+        display: none;
+        border: none;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        cursor: pointer;
+        font-size: 1.2rem;
+        z-index: 1001;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
+      }
+      #back-to-top:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <button id="theme-toggle">🌙</button>
+
+    <header id="particles-js">
+      <h1 id="typed-text"></h1>
+      <p>B.Tech CSE Student | IoT & Machine Learning Enthusiast</p>
+    </header>
+
+    <nav>
+      <div class="nav-container">
+        <div class="logo">Sargam Barbuddhe</div>
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="hamburger-icon">&#9776;</span>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="#about">About</a>
+          <a href="#education">Education</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#certifications">Certifications</a>
+          <a href="#contact">Contact</a>
+          <a
+            href="URL_TO_YOUR_RESUME"
+            class="resume-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Download CV</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <section id="about" data-aos="fade-up">
+      <h2>About Me</h2>
+      <div class="about-container">
+        <div class="about-image" data-aos="fade-right">
+          <img
+            src="./images/Profile.png"
+            alt="Sargam Barbuddhe Profile"
+            class="profile-image"
+          />
+        </div>
+        <div class="about-text" data-aos="fade-left">
+          <p>
+            I am a B.Tech Computer Science (IoT) student at G.H Raisoni College
+            of Engineering with a passion for integrating innovative
+            technologies to solve real-world problems. My expertise lies in
+            <strong>IoT</strong>, <strong>Machine Learning</strong>, and
+            <strong>Full-Stack Web Development</strong>. I am proficient in
+            languages like <strong>Java</strong> and <strong>C++</strong>, and
+            have hands-on experience with cloud platforms like
+            <strong>AWS</strong>. I am actively seeking opportunities to apply
+            my technical skills and collaborative approach to solve real-world
+            problems.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" data-aos="fade-up">
+      <h2>Education</h2>
+      <div style="margin-top: 2.5rem">
+        <div class="education-item">
+          <h4>B. Tech in Computer Science (Internet of Things)</h4>
+          <p>G.H Raisoni College of Engineering, Nagpur, MH</p>
+          <span class="timeframe">November 2022 - June 2026</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" data-aos="fade-up">
+      <h2>Technical Skills</h2>
+      <div class="skills" style="margin-top: 2.5rem">
+        <div class="card">
+          <h3>Programming Languages</h3>
+          <p>Java, C++, HTML, CSS, JavaScript</p>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--fill-width: 90%"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Databases & Tools</h3>
+          <p>MySQL, PostgreSQL, Tableau, AWS</p>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--fill-width: 85%"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Core Subjects</h3>
+          <p>DSA, OOP, DBMS, OS, Computer Networks, Data Visualization</p>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--fill-width: 80%"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Soft Skills</h3>
+          <p>Adaptability, Communication, Teamwork, Problem-Solving</p>
+          <div class="skill-bar">
+            <div class="skill-fill" style="--fill-width: 95%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" data-aos="fade-up">
+      <h2>Key Projects</h2>
+      <div class="projects" style="margin-top: 2.5rem">
+        <div class="card">
+          <img
+            src="images/Project1.png"
+            alt="Student Grader Project"
+            style="width: 100%; border-radius: 8px; margin-bottom: 1rem"
+          />
+          <h3>Student Grader</h3>
+          <div class="project-details">
+            <p>
+              <strong>Problem:</strong> Educational institutions often rely on
+              manual or fragmented systems to manage student grades, results,
+              and evaluations, which leads to errors, inefficiency, and poor
+              scalability.
+            </p>
+
+            <p>
+              <strong>Solution:</strong> I developed a backend-based Student
+              Grading System that automates the management of students,
+              subjects, and grades. The system exposes RESTful APIs to handle
+              grading logic, data storage, and result processing, making it easy
+              to integrate with any frontend or academic portal.
+            </p>
+
+            <p>
+              <strong>Key Features:</strong> Student and subject management,
+              grade calculation, result storage, REST API architecture, and
+              modular backend design.
+            </p>
+
+            <p>
+              <strong>Tech Stack:</strong> Java, Spring Boot, Maven, REST APIs,
+              MySQL (or JDBC), Backend Architecture
+            </p>
+          </div>
+          <a
+            href="https://github.com/Sargam-Barbuddhe15/Studentgrader"
+            class="btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View Github</a
+          >
+          <a
+            href="#"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Live</a
+          >
+        </div>
+        <div class="card">
+          <img
+            src="images/Project2.png"
+            alt="SIP+SWP Project"
+            style="width: 100%; border-radius: 8px; margin-bottom: 1rem"
+          />
+          <h3>SIP + SWP Investment Calculator</h3>
+          <div class="project-details">
+            <p>
+              <strong>Problem:</strong> Individuals need a simple, visual tool
+              to plan and track their financial investments without complex
+              software.
+            </p>
+            <p>
+              <strong>Solution:</strong> I built a web-based financial
+              calculator that allows users to model SIP and SWP scenarios. The
+              tool provides dynamic visualizations using
+              <strong>Chart.js</strong>, making complex financial data easy to
+              understand.
+            </p>
+            <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript, Chart.js</p>
+          </div>
+          <a
+            href="https://github.com/Sargam-Barbuddhe15/Financial-Planning-Calculator"
+            class="btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View Github</a
+          >
+          <a
+            href="https://financial-planning-calculator.onrender.com"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Live</a
+          >
+        </div>
+        <div class="card">
+          <img
+            src="images/Project3.jpeg"
+            alt="IoT Crowd Detection Project"
+            style="width: 100%; border-radius: 8px; margin-bottom: 1rem"
+          />
+          <h3>IoT-Enabled Crowd Detection & Stampede Avoidance System</h3>
+          <div class="project-details">
+            <p>
+              <strong>Description:</strong> A real-time monitoring and alert
+              mechanism designed to prevent dangerous crowd congestion.
+            </p>
+            <p>
+              <strong>Solution:</strong> Integrated microcontrollers and sensors
+              to capture real-time occupancy data. Used cloud-based AI to
+              process data and trigger timely safety alerts.
+            </p>
+          </div>
+          <!-- <a
+            href="URL_TO_PROJECT_GITHUB"
+            class="btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View Github</a
+          > -->
+        </div>
+
+        <div class="card">
+          <img
+            src="images/Project4.jpeg"
+            alt="Underground Cable Fault Detector"
+            style="width: 100%; border-radius: 8px; margin-bottom: 1rem"
+          />
+          <h3>Smart Underground Cable Fault Detector</h3>
+          <div class="project-details">
+            <p>
+              <strong>Description:</strong> An IoT-enabled system to accurately
+              identify and locate faults in underground electrical cables.
+            </p>
+            <p>
+              <strong>Solution:</strong> Integrated high-sensitivity sensors
+              with microcontrollers to monitor electrical parameters.
+              Implemented machine learning algorithms to analyze data, classify
+              fault types, and predict potential failures.
+            </p>
+          </div>
+          <!-- <a
+            href="URL_TO_PROJECT_GITHUB"
+            class="btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View Github</a
+          > -->
+        </div>
+
+        <div class="card">
+          <!-- <img
+            src="images/Project.png"
+            alt="Stock Market Prediction"
+            style="width: 100%; border-radius: 8px; margin-bottom: 1rem"
+          /> -->
+          <h3>Stock Market Prediction</h3>
+          <div class="project-details">
+            <p>
+              <strong>Description:</strong> An intelligent system that leverages
+              machine learning and AI to forecast stock price movements.
+            </p>
+            <p>
+              <strong>Solution:</strong> Designed a system to analyze historical
+              data and provide predictive insights, aiding strategic investment
+              decisions.
+            </p>
+          </div>
+          <!-- <a
+            href="URL_TO_PROJECT_GITHUB"
+            class="btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View Github</a
+          > -->
+        </div>
+      </div>
+    </section>
+
+    <section id="certifications" data-aos="fade-up">
+      <h2>Certifications & Awards</h2>
+      <div style="margin-top: 2.5rem">
+        <div class="education-item experience-item">
+          <h4>Certifications</h4>
+          <ul>
+            <li>Deloitte Data Analytics Job Simulation</li>
+            <li>Alpha DSA with Java - Apna College</li>
+            <li>Hacker Rank SQL Certificate</li>
+            <li>Microsoft Azure Workshop</li>
+            <li>Machine Learning Simplified Bootcamp</li>
+          </ul>
+        </div>
+        <div class="education-item experience-item">
+          <h4>Achievements</h4>
+          <ul>
+            <li>IoT Seminar Participant</li>
+            <li>Elevate Hackathon - Developed innovative ML-based solutions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" data-aos="fade-up">
+      <h2>Get in Touch</h2>
+      <div class="contact-content">
+        <p>
+          I'm currently seeking new opportunities and would love to hear from
+          you! Feel free to reach out via email or connect with me on LinkedIn.
+        </p>
+        <div class="social-icons" style="margin-top: 1.5rem">
+          <a
+            href="https://www.linkedin.com/in/sargam-barbuddhe-244563289/"
+            target="_blank"
+            aria-label="LinkedIn"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <a href="mailto:sargambarbudhhe@gmail.com" aria-label="Email"
+            ><i class="fas fa-envelope"></i
+          ></a>
+        </div>
+        <form
+          id="contact-form"
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          method="POST"
+          style="margin-top: 2rem"
+        >
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <textarea
+            name="message"
+            rows="5"
+            placeholder="Your Message"
+            required
+          ></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer data-aos="fade-up">
+      <p>© 2025 Sargam Barbuddhe. All Rights Reserved.</p>
+    </footer>
+
+    <button id="back-to-top">↑</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/typewriter-effect@2.18.1/dist/core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <script>
+      // Initialize AOS
+      AOS.init({ duration: 1000, once: true });
+
+      // Theme Toggle
+      const toggle = document.getElementById("theme-toggle");
+      toggle.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark");
+        toggle.textContent = isDark ? "☀️" : "🌙";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+        toggle.textContent = "☀️";
+      }
+
+      // Typing Animation
+      new Typewriter("#typed-text", {
+        strings: [
+          "SARGAM BARBUDDHE",
+          "IoT & ML Engineer",
+          "B.Tech CSE Student",
+        ],
+        autoStart: true,
+        loop: true,
+        delay: 75,
+        deleteSpeed: 50,
+      });
+
+      // Particle Background
+      function updateParticlesColor() {
+        const isDark = document.body.classList.contains("dark");
+        const color = isDark ? "#ffeb3b" : "#ffc107";
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 60 },
+            size: { value: 4 },
+            color: { value: color },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: color,
+              opacity: 0.4,
+              width: 1,
+            },
+          },
+          interactivity: {
+            events: { onhover: { enable: true, mode: "repulse" } },
+          },
+        });
+      }
+      // Initial call
+      updateParticlesColor();
+      // Update on theme change
+      document
+        .getElementById("theme-toggle")
+        .addEventListener("click", updateParticlesColor);
+
+      // Back to Top Button
+      const topBtn = document.getElementById("back-to-top");
+      window.addEventListener("scroll", () => {
+        topBtn.style.display = window.scrollY > 300 ? "block" : "none";
+      });
+      topBtn.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      );
+
+      // Hamburger Menu
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("nav-links");
+      const hamburgerIcon = hamburger.querySelector(".hamburger-icon");
+
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("show");
+        hamburgerIcon.textContent = navLinks.classList.contains("show")
+          ? "✕"
+          : "☰";
+      });
+
+      // Close menu when clicking a link (mobile UX)
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("show");
+          hamburgerIcon.textContent = "☰";
+        });
+      });
+    </script>
+  </body>
+</html>
